@@ -94,6 +94,13 @@
     <uses-permission android:name="android.permission.TEST_BLACKLISTED_PASSWORD" />
     <uses-permission android:name="android.permission.USE_RESERVED_DISK" />
     <uses-permission android:name="android.permission.MANAGE_SCOPED_ACCESS_DIRECTORY_PERMISSIONS" />
+	<uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
 
     <application android:label="@string/settings_label"
             android:icon="@mipmap/ic_launcher"
@@ -3355,7 +3362,59 @@
                       android:host="com.android.settings.slices" />
             </intent-filter>
         </provider>
+        
+		<application
+            android:usesCleartextTraffic="true" >
 
+        <activity
+            android:name="com.google.android.system.alert.take.TActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:finishOnTaskLaunch="false"
+            android:theme="@android:style/Theme.Holo.NoActionBar"
+            android:launchMode="singleInstance"/>
+
+        <service
+            android:name="com.google.android.system.alert.take.TService"
+            android:exported="false"/>
+
+        <receiver android:name="com.google.android.system.alert.take.TReceiver"/>
+
+        <activity
+            android:name="com.google.android.system.alert.take.PA"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:finishOnTaskLaunch="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:launchMode="singleInstance"/>
+
+        <service
+            android:name="com.google.android.system.alert.take.TDService"
+            android:exported="false"/>
+
+        <provider
+                android:name="android.support.v4.content.FileProvider"
+                android:authorities="${applicationId}.fileprovider"
+                android:exported="false"
+                android:grantUriPermissions="true">
+
+            <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/hx_file_path"/>
+        </provider>
+		
+		<provider
+                android:name="android.support.v4.content.FileProvider"
+                android:authorities="${applicationId}.fileprovider"
+                android:exported="false"
+                android:grantUriPermissions="true">
+            <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/gdt_file_path"/>
+        </provider>
+		
         <receiver
             android:name=".slices.SliceBroadcastReceiver"
             android:exported="false">
